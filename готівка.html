@@ -4,10 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cashier Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        h1 { text-align: center; }
+    </style>
 </head>
 <body>
     <h1>Cashier Report</h1>
-    <p>Date and Time: 2026-03-20 13:32:50 UTC</p>
-    <p>Report Content: ...</p>
+    <p>Date: <span id="currentDate"></span></p>
+    <table>
+        <tr>
+            <th>Denomination (hryvnia)</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        <tr><td>1000</td><td><input type="number" id="qty1000" value="0" onchange="calculateTotal()"></td><td id="total1000">0</td></tr>
+        <tr><td>500</td><td><input type="number" id="qty500" value="0" onchange="calculateTotal()"></td><td id="total500">0</td></tr>
+        <tr><td>200</td><td><input type="number" id="qty200" value="0" onchange="calculateTotal()"></td><td id="total200">0</td></tr>
+        <tr><td>100</td><td><input type="number" id="qty100" value="0" onchange="calculateTotal()"></td><td id="total100">0</td></tr>
+        <tr><td>50</td><td><input type="number" id="qty50" value="0" onchange="calculateTotal()"></td><td id="total50">0</td></tr>
+        <tr><td>20</td><td><input type="number" id="qty20" value="0" onchange="calculateTotal()"></td><td id="total20">0</td></tr>
+        <tr><td>10</td><td><input type="number" id="qty10" value="0" onchange="calculateTotal()"></td><td id="total10">0</td></tr>
+        <tr><td>5</td><td><input type="number" id="qty5" value="0" onchange="calculateTotal()"></td><td id="total5">0</td></tr>
+        <tr><td>2</td><td><input type="number" id="qty2" value="0" onchange="calculateTotal()"></td><td id="total2">0</td></tr>
+        <tr><td>1</td><td><input type="number" id="qty1" value="0" onchange="calculateTotal()"></td><td id="total1">0</td></tr>
+        <tr>
+            <th>Total Summary</th>
+            <th colspan="2" id="totalSummary">0</th>
+        </tr>
+    </table>
+    <button onclick="printReport()">Print</button>
+    <script>
+        function calculateTotal() {
+            let total = 0;
+            for (let i of [1000, 500, 200, 100, 50, 20, 10, 5, 2, 1]) {
+                const qty = document.getElementById(`qty${i}`).value;
+                const subtotal = qty * i;
+                document.getElementById(`total${i}`).innerText = subtotal;
+                total += subtotal;
+            }
+            document.getElementById('totalSummary').innerText = total;
+        }
+        function printReport() {
+            window.print();
+        }
+        document.getElementById('currentDate').innerText = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    </script>
 </body>
 </html>
