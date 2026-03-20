@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashier Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Cashier Calculator</h1>
+    <form id="calculator">
+        <input type="text" id="itemName" placeholder="Item Name" required />
+        <input type="number" id="itemPrice" placeholder="Item Price" required step="0.01" />
+        <input type="number" id="itemQuantity" placeholder="Quantity" required min="1" />
+        <button type="submit">Add Item</button>
+    </form>
+
+    <h2>Itemized List</h2>
+    <table id="itemList">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>Total Revenue: $<span id="totalRevenue">0.00</span></h3>
+    <button id="printBtn">Print Receipt</button>
+
+    <script>
+        let totalRevenue = 0;
+        document.getElementById('calculator').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const itemName = document.getElementById('itemName').value;
+            const itemPrice = parseFloat(document.getElementById('itemPrice').value);
+            const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
+            const totalCost = itemPrice * itemQuantity;
+
+            const tbody = document.querySelector('#itemList tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${itemName}</td><td>$${itemPrice.toFixed(2)}</td><td>${itemQuantity}</td><td>$${totalCost.toFixed(2)}</td>`;
+            tbody.appendChild(row);
+
+            totalRevenue += totalCost;
+            document.getElementById('totalRevenue').innerText = totalRevenue.toFixed(2);
+
+            this.reset(); // Reset form after submission
+        });
+
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+    </script>
+</body>
+</html>
